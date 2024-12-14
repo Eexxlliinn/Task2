@@ -1,45 +1,77 @@
 package me.eexxlliinn.task2.repositories.impl;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import jakarta.transaction.Transactional;
 import me.eexxlliinn.task2.entities.ProductEntity;
 import me.eexxlliinn.task2.repositories.ProductRepository;
+import me.eexxlliinn.task2.util.HibernateUtil;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 import java.util.List;
-import java.util.UUID;
 
 public class ProductRepositoryImpl implements ProductRepository {
 
-    @PersistenceContext
-    private EntityManager entityManager;
+    private final SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 
     @Override
-    public ProductEntity getProduct(UUID id) {
-        return entityManager.find(ProductEntity.class, id);
+    public ProductEntity getProduct(long id) {
+        try (Session session = sessionFactory.openSession()) {
+            return session.get(ProductEntity.class, id);
+        }
     }
 
     @Override
     public List<ProductEntity> getProducts() {
-        return entityManager.createQuery("SELECT p FROM ProductEntity p", ProductEntity.class).getResultList();
+        try (Session session = sessionFactory.openSession()) {
+            return session.createQuery("from ProductEntity", ProductEntity.class).list();
+        }
     }
 
     @Override
-    @Transactional
     public void saveProduct(ProductEntity product) {
-        entityManager.persist(product);
+        try (Session session = sessionFactory.openSession()) {
+            Transaction transaction = null;
+            try {
+                transaction = session.beginTransaction();
+                session.save(product);
+                transaction.commit();
+            } catch (Exception e) {
+                if (transaction != null) transaction.rollback();
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
     public void updateProduct(ProductEntity product) {
-        entityManager.merge(product);
+        try (Session session = sessionFactory.openSession()) {
+            Transaction transaction = null;
+            try {
+                transaction = session.beginTransaction();
+                session.update(product);
+                transaction.commit();
+            } catch (Exception e) {
+                if (transaction != null) transaction.rollback();
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
-    public void deleteProduct(UUID id) {
-        ProductEntity product = getProduct(id);
-        if (product != null) {
-            entityManager.remove(product);
+    public void deleteProduct(long id) {
+        try (Session session = sessionFactory.openSession()) {
+            Transaction transaction = null;
+            try {
+                transaction = session.beginTransaction();
+                ProductEntity product = session.get(ProductEntity.class, id);
+                if (product != null) {
+                    session.delete(product);
+                }
+                transaction.commit();
+            } catch (Exception e) {
+                if (transaction != null) transaction.rollback();
+                e.printStackTrace();
+            }
         }
     }
 }

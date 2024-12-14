@@ -1,24 +1,22 @@
 package me.eexxlliinn.task2.services.impl;
 
-import lombok.RequiredArgsConstructor;
 import me.eexxlliinn.task2.dtos.ProductRequest;
 import me.eexxlliinn.task2.dtos.ProductResponse;
 import me.eexxlliinn.task2.entities.ProductEntity;
 import me.eexxlliinn.task2.mappers.ProductMapper;
 import me.eexxlliinn.task2.repositories.ProductRepository;
+import me.eexxlliinn.task2.repositories.impl.ProductRepositoryImpl;
 import me.eexxlliinn.task2.services.ProductService;
 
 import java.util.List;
-import java.util.UUID;
 
-@RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
 
-    private final ProductRepository productRepository;
-    private final ProductMapper productMapper;
+    private final ProductRepository productRepository = new ProductRepositoryImpl();
+    private final ProductMapper productMapper = new ProductMapper();
 
     @Override
-    public ProductResponse getProductById(UUID productId) {
+    public ProductResponse getProductById(long productId) {
         ProductEntity product = productRepository.getProduct(productId);
         return productMapper.toDto(product);
     }
@@ -37,18 +35,19 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductResponse updateProduct(UUID productId, ProductRequest productRequest) {
+    public ProductResponse updateProduct(long productId, ProductRequest productRequest) {
         ProductEntity product = productRepository.getProduct(productId);
         product.setName(productRequest.getName());
         product.setColor(productRequest.getColor());
         product.setSize(productRequest.getSize());
         product.setPrice(productRequest.getPrice());
+        product.setAmount(productRequest.getAmount());
         productRepository.updateProduct(product);
         return productMapper.toDto(product);
     }
 
     @Override
-    public void deleteProduct(UUID productId) {
+    public void deleteProduct(long productId) {
         productRepository.deleteProduct(productId);
     }
 }
