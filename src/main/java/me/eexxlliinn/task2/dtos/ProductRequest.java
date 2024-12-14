@@ -12,4 +12,5 @@ public class ProductRequest {
     private ColorEnum color;
     private SizeEnum size;
     private double price;
+    private long amount;
 }

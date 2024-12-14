@@ -1,23 +1,23 @@
 package me.eexxlliinn.task2.entities;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import me.eexxlliinn.task2.enums.ColorEnum;
 import me.eexxlliinn.task2.enums.SizeEnum;
-
-import java.util.UUID;
 
 @Getter
 @Setter
 @RequiredArgsConstructor
-@Table(name = "products")
+@Table(name = "product")
 @Entity
 public class ProductEntity {
 
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
     @Column(name = "name")
     private String name;
@@ -32,4 +32,7 @@ public class ProductEntity {
 
     @Column(name = "price")
     private double price;
+
+    @Column(name = "amount")
+    private long amount;
 }

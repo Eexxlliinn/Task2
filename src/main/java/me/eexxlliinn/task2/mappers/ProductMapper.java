@@ -18,6 +18,7 @@ public class ProductMapper {
         productRequest.setColor(ColorEnum.valueOf(request.getParameter("color")));
         productRequest.setSize(SizeEnum.valueOf(request.getParameter("size")));
         productRequest.setPrice(Float.parseFloat(request.getParameter("price")));
+        productRequest.setAmount(Long.parseLong(request.getParameter("amount")));
         return productRequest;
     }
 
@@ -27,6 +28,7 @@ public class ProductMapper {
         productEntity.setColor(productRequest.getColor());
         productEntity.setSize(productRequest.getSize());
         productEntity.setPrice(productRequest.getPrice());
+        productEntity.setAmount(productRequest.getAmount());
         return productEntity;
     }
 
@@ -37,6 +39,7 @@ public class ProductMapper {
         productResponse.setColor(productEntity.getColor());
         productResponse.setSize(productEntity.getSize());
         productResponse.setPrice(productEntity.getPrice());
+        productResponse.setAmount(productEntity.getAmount());
         return productResponse;
     }
 
