@@ -11,5 +11,10 @@
         <property name="hibernate.hbm2ddl.auto">update</property>
 
         <mapping class="me.eexxlliinn.task2.entities.ProductEntity"/>
+        <mapping class="me.eexxlliinn.task2.entities.CartEntity"/>
+        <mapping class="me.eexxlliinn.task2.entities.CartProductEntity"/>
+        <mapping class="me.eexxlliinn.task2.entities.UserEntity"/>
+        <mapping class="me.eexxlliinn.task2.entities.RoleEntity"/>
+
     </session-factory>
 </hibernate-configuration>
