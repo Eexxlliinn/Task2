@@ -2,14 +2,12 @@ package me.eexxlliinn.task2.entities;
 
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import me.eexxlliinn.task2.enums.ColorEnum;
 import me.eexxlliinn.task2.enums.SizeEnum;
 
 @Getter
 @Setter
-@RequiredArgsConstructor
 @Table(name = "product")
 @Entity
 public class ProductEntity {
